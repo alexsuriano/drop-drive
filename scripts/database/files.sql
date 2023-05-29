@@ -1,7 +1,7 @@
 CREATE TABLE files (
     id SERIAL,
     folder_id INT,
-    owner_id INT NOT NULL
+    owner_id INT NOT NULL,
     name VARCHAR(200) NOT NULL,
     type VARCHAR(50) NOT NULL,
     path VARCHAR(250) NOT NULL,
@@ -11,7 +11,7 @@ CREATE TABLE files (
     PRIMARY KEY(id),
     CONSTRAINT fk_folders
         FOREIGN KEY(folder_id)
-        REFERENCES folder(id),
+        REFERENCES folders(id),
     CONSTRAINT fk_users
         FOREIGN KEY(owner_id)
         REFERENCES users(id)

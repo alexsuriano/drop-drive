@@ -36,7 +36,7 @@ func New(qt QueueType, cfg any) (queue *Queue, err error) {
 
 		queue.queueConnection = conn
 	default:
-		log.Fatal("Type not implemented")
+		log.Fatal("queue type not implemented")
 	}
 
 	return

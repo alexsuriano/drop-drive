@@ -21,10 +21,10 @@ type Queue struct {
 	queueConnection QueueConnection
 }
 
-func New(qt QueueType, cfg any) (queue *Queue, err error) {
+func New(queueType QueueType, cfg any) (queue *Queue, err error) {
 	rt := reflect.TypeOf(cfg)
 
-	switch qt {
+	switch queueType {
 	case RabbitMQ:
 		if rt.Name() != "RabbitMQConfig" {
 			return nil, fmt.Errorf("config need's to be of type RabbitMQConfi")

@@ -3,6 +3,7 @@ package queue
 import (
 	"fmt"
 	"log"
+	"reflect"
 )
 
 const (
@@ -13,30 +14,38 @@ type QueueType int
 
 type QueueConnection interface {
 	Publish([]byte) error
-	Consume() error
+	Consume(chan<- QueueDTO) error
 }
 
 type Queue struct {
-	cfg any
-	qc  QueueConnection
+	queueConnection QueueConnection
 }
 
-func New(qt QueueType, cfg any) *Queue {
-	queue := new(Queue)
+func New(qt QueueType, cfg any) (queue *Queue, err error) {
+	rt := reflect.TypeOf(cfg)
+
 	switch qt {
 	case RabbitMQ:
-		fmt.Println("Não implementado")
+		if rt.Name() != "RabbitMQConfig" {
+			return nil, fmt.Errorf("config need's to be of type RabbitMQConfi")
+		}
+		conn, err := newRabbitMQConn(cfg.(RabbitMQConfig))
+		if err != nil {
+			return nil, err
+		}
+
+		queue.queueConnection = conn
 	default:
 		log.Fatal("Type not implemented")
 	}
 
-	return queue
+	return
 }
 
 func (q *Queue) Publish(msg []byte) error {
-	return q.qc.Publish(msg)
+	return q.queueConnection.Publish(msg)
 }
 
-func (q *Queue) Consume() error {
-	return q.qc.Consume()
+func (q *Queue) Consume(chDTO chan<- QueueDTO) error {
+	return q.queueConnection.Consume(chDTO)
 }

@@ -11,9 +11,13 @@ type handler struct {
 }
 
 func SetRoutes(r chi.Router, db *sql.DB) {
-	h := handler{
+	handler := handler{
 		db: db,
 	}
 
-	r.Post("/", h.Create)
+	r.Post("/", handler.Create)
+	r.Put("/{id}", handler.Modify)
+	r.Delete("/{id}", handler.Delete)
+	r.Get("/{id}", handler.GetByID)
+	r.Get("/", handler.list)
 }

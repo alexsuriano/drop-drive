@@ -5,8 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"time"
-
-	"go.starlark.net/lib/time"
 )
 
 type User struct {

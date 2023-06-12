@@ -18,6 +18,19 @@ type Folder struct {
 	Deleted    bool      `json:"-"`
 }
 
+type FolderContent struct {
+	Folder  Folder           `json:"folder"`
+	Content []FolderResource `json:"content"`
+}
+
+type FolderResource struct {
+	ID         int64     `json:"id"`
+	Name       string    `json:"name"`
+	Type       string    `json:"type"`
+	CreatedAt  time.Time `json:"created_at"`
+	ModifiedAt time.Time `json:"modified_at"`
+}
+
 func New(name string, parentID int64) (*Folder, error) {
 	folder := Folder{
 		ParentID: parentID,
